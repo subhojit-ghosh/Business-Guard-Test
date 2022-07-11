@@ -1313,10 +1313,16 @@
         function calculate(depositStr, selected) {
           const deposit = parseFloat(depositStr);
           const returns = [];
-          [1, 2, 3, 4].forEach((year) => {
+          const numberOfYears = 5;
+          const currentYear = new Date().getFullYear();
+          const years = [currentYear];
+          for (let i = 1; i <= numberOfYears; i++) {
+            years.push(currentYear + i);
+          }
+          years.forEach((year, i) => {
             let apy = parseFloat(selected.percent);
             apy = apy / 100;
-            let calc = apy * year;
+            let calc = apy * i;
             let profit = calc * deposit;
             let returnAmt = parseFloat((deposit + profit).toFixed(2));
             returns.push(returnAmt);
@@ -1338,7 +1344,7 @@
                   return this.value; // clean, unformatted number for year
                 },
               },
-              categories: ["2023", "2024", "2025", "2026"],
+              categories: years,
             },
             yAxis: {
               title: {
