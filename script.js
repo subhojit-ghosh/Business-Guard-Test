@@ -1,4 +1,4 @@
-const countries = [
+window.countries = [
   {
     name: "United Kingdom",
     currency: "GBP",
@@ -356,4 +356,125 @@ const countries = [
   },
 ];
 
-window.countries = countries;
+window.availableAssets = [
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/usdc.svg",
+    percent: "4.3%",
+    name: "USDC",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/usdt.svg",
+    percent: "3.9%",
+    name: "USDT",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/busd.svg",
+    percent: "1.4%",
+    name: "BUSD",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/dai.svg",
+    percent: "5%",
+    name: "DAI",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/xidr.svg",
+    percent: "0.5%",
+    name: "XIDR",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/xsgd.svg",
+    percent: "0.5%",
+    name: "XSGD",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/btc.svg",
+    percent: "4%",
+    name: "BTC",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/eth.svg",
+    percent: "4.3%",
+    name: "ETH",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/sol.svg",
+    percent: "4.5%",
+    name: "SOL",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/matic.svg",
+    percent: "7.3%",
+    name: "MATIC",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/axs.svg",
+    percent: "90%",
+    name: "AXS",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/slp.svg",
+    percent: "10%",
+    name: "SLP",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/ron.svg",
+    percent: "5%",
+    name: "RON",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/avax.svg",
+    percent: "7%",
+    name: "AVAX",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/near.svg",
+    percent: "8.5%",
+    name: "NEAR",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/sand.svg",
+    percent: "0.5%",
+    name: "SAND",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/bnb.svg",
+    percent: "3.8%",
+    name: "BNB",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/dot.svg",
+    percent: "14.3%",
+    name: "DOT",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/xrp.svg",
+    percent: "0.5%",
+    name: "XRP",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/ada.svg",
+    percent: "4.2%",
+    name: "ADA",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/atom.svg",
+    percent: "11.2%",
+    name: "ATOM",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/ape.svg",
+    percent: "0.5%",
+    name: "APE",
+  },
+  {
+    image: "https://static.finbloxapp.com/crypto-icons/doge.svg",
+    percent: "4%",
+    name: "DOGE",
+  },
+  {
+    image: "https://finblox.com/build/_assets/more-MZF6PAUH.svg",
+    percent: "🔥",
+    name: "Coming soon...",
+  },
+];
