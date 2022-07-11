@@ -478,3 +478,27 @@ window.availableAssets = [
     name: "Coming soon...",
   },
 ];
+
+window.locations = [
+  "Australia - Remote",
+  "Bangalore",
+  "Belgium - Remote",
+  "Berlin",
+  "Brazil - Remote",
+  "Dublin",
+  "France - Remote",
+  "Germany - Remote",
+  "Gurgaon",
+  "Hungary - Remote",
+  "India - Remote",
+];
+
+window.teams = [
+  { name: "All teams", count: 204 },
+  { name: "Business Development", count: 2 },
+  { name: "Engineering & Data", count: 20 },
+  { name: "Executive", count: 2 },
+  { name: "Finance & Credit", count: 25 },
+  { name: "Legal", count: 12 },
+  { name: "Marketing & Commas", count: 17 },
+];
