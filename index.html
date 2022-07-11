@@ -13,7 +13,7 @@
     </style>
   </head>
   <body style="background-color: #f2f3f4">
-    <!-- This example requires Tailwind CSS v2.0+ -->
+    <!-- header -->
     <div class="relative" style="background-color: #f2f3f4">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div
@@ -62,7 +62,7 @@
                   x-transition:leave-end="opacity-0 translate-y-1"
                 >
                   <div
-                    class="rounded-lg mt-3 shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
+                    class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
                   >
                     <div class="relative flex bg-white px-5 py-6 sm:p-8">
                       <div class="w-9/12">
@@ -706,43 +706,47 @@
         </div>
       </div>
     </div>
-    <div
-      class="relative left-28 top-28 inline-block text-left"
-      x-data="{open: false, countries: window.countries }"
-      @click.outside="open = false"
-    >
-      <div>
-        <button
-          type="button"
-          class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true"
-          @click="open = true"
-        >
-          <img
-            class="avatar w-5 h-5 mr-2"
-            src="https://assets.revolut.com/assets/flags/GB.svg"
-          />
-          GBP
-          <!-- Heroicon name: solid/chevron-down -->
-          <svg
-            class="-mr-1 ml-2 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
+    <!-- header end -->
 
-      <!--
+    <!-- currency dropdown -->
+    <div class="container my-28">
+      <div
+        class="relative left-28 inline-block text-left"
+        x-data="{open: false, countries: window.countries }"
+        @click.outside="open = false"
+      >
+        <div>
+          <button
+            type="button"
+            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+            id="menu-button"
+            aria-expanded="true"
+            aria-haspopup="true"
+            @click="open = true"
+          >
+            <img
+              class="avatar w-5 h-5 mr-2"
+              src="https://assets.revolut.com/assets/flags/GB.svg"
+            />
+            GBP
+            <!-- Heroicon name: solid/chevron-down -->
+            <svg
+              class="-mr-1 ml-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!--
           Dropdown menu, show/hide based on menu state.
       
           Entering: "transition ease-out duration-100"
@@ -752,67 +756,88 @@
             From: "transform opacity-100 scale-100"
             To: "transform opacity-0 scale-95"
         -->
-      <div
-        class="origin-top-right absolute -top-2 mt-6 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="menu-button"
-        tabindex="-1"
-        x-show="open"
-        x-cloak
-      >
-        <div class="relative">
-          <input
-            type="text"
-            class="py-4 text-sm text-white rounded-lg pl-5 focus:outline-none focus:bg-white focus:text-gray-400 w-full"
-            placeholder="Country you are sending from"
-            autocomplete="off"
-          />
-          <span
-            class="absolute inset-y-0 right-3 flex items-center pl-2 text-gray-900"
-          >
-            <button
-              type="button"
-              class="p-1 focus:outline-none focus:shadow-outline"
+        <div
+          class="origin-top-right absolute -top-2 mt-2 w-72 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="menu-button"
+          tabindex="-1"
+          x-show="open"
+          x-cloak
+        >
+          <div class="relative">
+            <input
+              type="text"
+              class="py-4 text-sm text-white rounded-lg pl-5 focus:outline-none focus:bg-white focus:text-gray-400 w-full"
+              placeholder="Country you are sending from"
+              autocomplete="off"
+            />
+            <span
+              class="absolute inset-y-0 right-3 flex items-center pl-2 text-gray-900"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-                style="color: gray"
+              <button
+                type="button"
+                class="p-1 focus:outline-none focus:shadow-outline"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
-          </span>
-        </div>
-        <hr />
-        <div class="py-1 max-h-80 overflow-y-scroll" role="none">
-          <template x-for="country in countries">
-            <div
-              class="text-gray-700 block px-4 py-2 text-sm cursor-pointer rounded-md mx-2 my-2 px-2 py-2 hover:bg-gray-100"
-              @click="open = false"
-            >
-              <div class="flex w-full">
-                <div class="w-2/12">
-                  <img class="w-8 h-8" :src="country.image" />
-                </div>
-                <div class="w-10/12">
-                  <p class="text-md" x-text="country.name"></p>
-                  <p class="text-xs" x-text="country.currency"></p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  style="color: gray"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
+            </span>
+          </div>
+          <hr />
+          <div class="py-1 max-h-80 overflow-y-scroll" role="none">
+            <template x-for="country in countries">
+              <div
+                class="text-gray-700 block px-4 py-2 text-sm cursor-pointer rounded-md mx-2 my-2 px-2 py-2 hover:bg-gray-100"
+                @click="open = false"
+              >
+                <div class="flex w-full">
+                  <div class="w-2/12">
+                    <img class="w-8 h-8" :src="country.image" />
+                  </div>
+                  <div class="w-10/12">
+                    <p class="text-md" x-text="country.name"></p>
+                    <p class="text-xs" x-text="country.currency"></p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
+            </template>
+          </div>
         </div>
       </div>
     </div>
+    <!-- currency dropdown end -->
+
+    <!-- stat cards -->
+    <div class="max-w-5xl mx-auto">
+      <div
+        class="grid grid-cols-4 gap-8"
+        x-data="{items: [{count: '18M', text: 'Personal users'},{count: '500K', text: 'Business users'},{count: '200+', text: 'Countries and regions supported'},{count: '30+', text: 'In-app currencies'}]}"
+      >
+        <template x-for="item in items">
+          <div class="bg-white rounded-2xl py-10 px-4 grid">
+            <p
+              class="text-6xl font-bold text-center mb-4"
+              x-text="item.count"
+            ></p>
+            <p class="text-xl font-medium text-center" x-text="item.text"></p>
+          </div>
+        </template>
+      </div>
+    </div>
+    <!-- stat cards end -->
   </body>
 </html>
