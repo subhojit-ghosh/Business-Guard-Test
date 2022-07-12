@@ -16,6 +16,19 @@
         display: none !important;
       }
     </style>
+    <script>
+      Number.prototype.toFixedNoRounding = function (n) {
+        const reg = new RegExp("^-?\\d+(?:\\.\\d{0," + n + "})?", "g");
+        const a = this.toString().match(reg)[0];
+        const dot = a.indexOf(".");
+        if (dot === -1) {
+          // integer, insert decimal dot and pad up zeros
+          return a + "." + "0".repeat(n);
+        }
+        const b = n - (a.length - dot) + 1;
+        return b > 0 ? a + "0".repeat(b) : a;
+      };
+    </script>
   </head>
   <body style="background-color: #f2f3f4">
     <!-- header -->
@@ -860,247 +873,6 @@
           </div>
         </div>
       </div>
-
-      <!--
-      Mobile menu, show/hide based on mobile menu state.
-  
-      Entering: "duration-200 ease-out"
-        From: "opacity-0 scale-95"
-        To: "opacity-100 scale-100"
-      Leaving: "duration-100 ease-in"
-        From: "opacity-100 scale-100"
-        To: "opacity-0 scale-95"
-    -->
-      <div
-        class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
-      >
-        <div
-          class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50"
-        >
-          <div class="pt-5 pb-6 px-5">
-            <div class="flex items-center justify-between">
-              <div>
-                <img
-                  class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt="Workflow"
-                />
-              </div>
-              <div class="-mr-2">
-                <button
-                  type="button"
-                  class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                >
-                  <span class="sr-only">Close menu</span>
-                  <!-- Heroicon name: outline/x -->
-                  <svg
-                    class="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="mt-6">
-              <nav class="grid gap-y-8">
-                <a
-                  href="#"
-                  class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                >
-                  <!-- Heroicon name: outline/chart-bar -->
-                  <svg
-                    class="flex-shrink-0 h-6 w-6 text-indigo-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
-                  <span class="ml-3 text-base font-medium text-gray-900">
-                    Analytics
-                  </span>
-                </a>
-
-                <a
-                  href="#"
-                  class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                >
-                  <!-- Heroicon name: outline/cursor-click -->
-                  <svg
-                    class="flex-shrink-0 h-6 w-6 text-indigo-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-                    />
-                  </svg>
-                  <span class="ml-3 text-base font-medium text-gray-900">
-                    Engagement
-                  </span>
-                </a>
-
-                <a
-                  href="#"
-                  class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                >
-                  <!-- Heroicon name: outline/shield-check -->
-                  <svg
-                    class="flex-shrink-0 h-6 w-6 text-indigo-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                  <span class="ml-3 text-base font-medium text-gray-900">
-                    Security
-                  </span>
-                </a>
-
-                <a
-                  href="#"
-                  class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                >
-                  <!-- Heroicon name: outline/view-grid -->
-                  <svg
-                    class="flex-shrink-0 h-6 w-6 text-indigo-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                    />
-                  </svg>
-                  <span class="ml-3 text-base font-medium text-gray-900">
-                    Integrations
-                  </span>
-                </a>
-
-                <a
-                  href="#"
-                  class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                >
-                  <!-- Heroicon name: outline/refresh -->
-                  <svg
-                    class="flex-shrink-0 h-6 w-6 text-indigo-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                  <span class="ml-3 text-base font-medium text-gray-900">
-                    Automations
-                  </span>
-                </a>
-              </nav>
-            </div>
-          </div>
-          <div class="py-6 px-5 space-y-6">
-            <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Pricing
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Docs
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Help Center
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Guides
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Events
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Security
-              </a>
-            </div>
-            <div>
-              <a
-                href="#"
-                class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-              >
-                Sign up
-              </a>
-              <p class="mt-6 text-center text-base font-medium text-gray-500">
-                Existing customer?
-                <a href="#" class="text-indigo-600 hover:text-indigo-500">
-                  Sign in
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <!-- header end -->
 
@@ -1769,69 +1541,67 @@
     <!-- graph end -->
 
     <!-- full width section -->
-    <div class="flex my-28" style="height: 456px">
-      <div class="w-2/4 relative bg-[#e5ecee] pt-16 pl-16 overflow-hidden">
-        <p class="font-medium text-lg mb-6">ALL DIGITAL BANKING</p>
-        <p class="font-bold text-4xl" style="max-width: 290px">
-          The Acorns Visa Debit Card
-        </p>
+    <div class="xl:flex my-28">
+      <div
+        class="h-[131vw] md:h-[322px] xl:w-2/4 relative bg-[#e5ecee] pt-6 pl-6 md:pt-16 md:pl-16 overflow-hidden"
+      >
         <img
           src="https://sqy7rm.media.zestyio.com/2021-July-Spend-Page-Corner-Phone.f1cb27a519bdb5b6ed34049a5b86e317.png"
-          class=""
-          style="
-            width: 510px;
-            position: absolute;
-            bottom: 0;
-            right: -100px;
-            z-index: 2;
-          "
+          class="w-[115vw] md:w-[378px] absolute -right-[27vw] md:right-[16px] -bottom-[20px] md:bottom-0 z-[2]"
         />
         <img
           src="https://sqy7rm.media.zestyio.com/Spend-Subvideo-Card-opt.201161a3540b303db6af5494b325c60c.png"
-          class=""
-          style="
-            width: 340px;
-            position: absolute;
-            right: 134px;
-            bottom: -120px;
-            z-index: 3;
-          "
+          class="w-[66vw] md:w-[278px] absolute right-[25.5vw] md:right-[196px] -bottom-[25vw] md:-bottom-[98px] z-[3]"
         />
+        <p class="font-medium text-md mb-4">ALL DIGITAL BANKING</p>
+        <p class="font-bold text-3xl" style="max-width: 290px">
+          The Acorns Visa Debit Card
+        </p>
       </div>
-      <div class="w-2/4 relative bg-[#f3f0e6] pt-16 pl-16 overflow-hidden">
-        <p class="font-medium text-lg mb-6">SPEND SMARTER</p>
-        <p class="font-bold text-4xl" style="max-width: 290px">Save & Invest</p>
+      <div
+        class="h-[131vw] md:h-[322px] xl:w-2/4 relative bg-[#e5ecee] pt-6 pl-6 md:pt-16 md:pl-16 overflow-hidden"
+      >
         <img
           src="https://sqy7rm.media.zestyio.com/AcornsChecking2ndvidcard_opt.f1cb27a519bdb5b6ed34049a5b86e317.png"
-          class=""
-          style="
-            width: 510px;
-            position: absolute;
-            bottom: 0;
-            right: -100px;
-            z-index: 2;
-          "
+          class="w-[115vw] md:w-[378px] absolute -right-[27vw] md:right-[16px] -bottom-[20px] md:bottom-0 z-[3]"
         />
         <img
           src="https://sqy7rm.media.zestyio.com/Leaf-Elements--opt.ac4ba8cf8e444773087b7f821ec3e023.png"
-          class=""
-          style="
-            width: 376px;
-            position: absolute;
-            right: -30px;
-            bottom: -72px;
-            z-index: 1;
-          "
+          class="w-[88vw] md:w-[460px] h-[59vw] md:h-[unset] absolute right-0 md:-right-[88px] bottom-0 md:-bottom-[123px] z-[2]"
         />
+        <p class="font-medium text-md mb-4">SPEND SMARTER</p>
+        <p class="font-bold text-3xl" style="max-width: 290px">Save & Invest</p>
       </div>
     </div>
     <!-- full width section end -->
 
-    <div class="flex my-28"></div>
+    <div class="flex my-28 mx-28">
+      <div
+        x-data="{
+          amount: '100.00',
+
+          onAmountBlur() {
+            if (!this.amount || this.amount < 0) {
+              this.amount = (0).toFixedNoRounding(2);
+            }
+            this.amount = parseFloat(this.amount).toFixedNoRounding(2);
+            this.updateAmountDisplay();
+          },
+
+          updateAmountDisplay() {
+            this.$refs.amountDisplay.innerText = this.amount;
+          }
+        }"
+        x-init="updateAmountDisplay()"
+      >
+        <input x-model="amount" x-on:blur="onAmountBlur()" />
+        <p>I have sent <span x-ref="amountDisplay"></span> to the bank</p>
+      </div>
+    </div>
 
     <!-- floating get started -->
     <div
-      class="fixed flex items-center bottom-10 right-10 bg-black rounded-2xl px-3 py-3 z-50 w-[360px]"
+      class="hidden fixed flex items-center bottom-10 right-10 bg-black rounded-2xl px-3 py-3 z-50 w-[360px]"
     >
       <div class="w-2/12">
         <img src="https://sqy7rm.media.zestyio.com/App-Icon.B1s9Xy3z9.svg" />
