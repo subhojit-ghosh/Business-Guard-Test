@@ -2298,52 +2298,214 @@
       </div>
     </div>
     <!-- send payment to bank popup end -->
+    <div class="my-28">
+      <div class="relative py-8 lg:py-12 overflow-hidden">
+        <div class="bg-white rounded-lg">
+          <div class="mx-auto text-center p-8 lg:p-16">
+            <h1 class="text-4xl font-extrabold text-black">
+              Calculate your <span class="text-loom">saving</span> yield
+            </h1>
+            <p class="mt-1 text-lg text-gray-500">
+              Select your ideal saving pot term to see how much you can earn
+              from your savings
+            </p>
+            <div
+              class="relative mx-auto text-left mt-6"
+              x-data="{
+                deposit: 1000, 
+                years: 5, 
+                apy: 5.50,
+                
+                termChange(event){
+                  const optionEl = event.target.options[event.target.selectedIndex];
+                  this.apy = parseFloat(optionEl.getAttribute('apy'));
+                  this.years = parseFloat(optionEl.getAttribute('years'));
+                  calculate(this.deposit, this.years, this.apy);
+                },
 
-    <div class="grid">
-      <button
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 lg:bg-loom hover:bg-gray-700 lg:hover:bg-loom-darker focus:outline-none"
-      >
-        <svg
-          class="-ml-1 mr-2 h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-          fill="currentColor"
-        >
-          <path
-            d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"
-          ></path>
-        </svg>
-        Add money</button
-      ><button
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 lg:bg-loom hover:bg-gray-700 lg:hover:bg-loom-darker focus:outline-none"
-      >
-        <svg
-          class="-ml-1 mr-2 h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="currentColor"
-        >
-          <path
-            d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"
-          ></path>
-        </svg>
-        Send</button
-      ><button
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 lg:bg-loom hover:bg-gray-700 lg:hover:bg-loom-darker cursor-not-allowed opacity-75 focus:outline-none"
-        disabled=""
-      >
-        <svg
-          class="-ml-1 mr-2 h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="currentColor"
-        >
-          <path
-            d="M32 176h370.8l-57.38 57.38c-12.5 12.5-12.5 32.75 0 45.25C351.6 284.9 359.8 288 368 288s16.38-3.125 22.62-9.375l112-112c12.5-12.5 12.5-32.75 0-45.25l-112-112c-12.5-12.5-32.75-12.5-45.25 0s-12.5 32.75 0 45.25L402.8 112H32c-17.69 0-32 14.31-32 32S14.31 176 32 176zM480 336H109.3l57.38-57.38c12.5-12.5 12.5-32.75 0-45.25s-32.75-12.5-45.25 0l-112 112c-12.5 12.5-12.5 32.75 0 45.25l112 112C127.6 508.9 135.8 512 144 512s16.38-3.125 22.62-9.375c12.5-12.5 12.5-32.75 0-45.25L109.3 400H480c17.69 0 32-14.31 32-32S497.7 336 480 336z"
-          ></path>
-        </svg>
-        Exchange
-      </button>
+                depositAmountBlur(){
+                  calculate(parseFloat(this.deposit.replace(/,/g, '')), this.years, this.apy);
+                },
+              }"
+              x-init="calculate($data.deposit, $data.years, $data.apy)"
+            >
+              <div class="grid gap-6 md:grid-cols-2">
+                <div>
+                  <div class="space-y-4">
+                    <div>
+                      <label
+                        for="countries"
+                        class="block text-base font-medium text-gray-500"
+                        >Terms</label
+                      ><select
+                        id="selectedTerm"
+                        class="mt-3 py-2.5 bg-gray-50 text-gray-500 border border-gray-300 focus:border-gray-300 focus:ring-0 text-base rounded-md block w-full"
+                        @change="termChange($event)"
+                      >
+                        <option apy="2.50" return="1.25" years="0.5">
+                          6 months
+                        </option>
+                        <option apy="3.00" return="3.00" years="1">
+                          12 months
+                        </option>
+                        <option apy="3.00" return="3.00" years="1.5">
+                          18 months
+                        </option>
+                        <option apy="4.00" return="8.00" years="2">
+                          24 months
+                        </option>
+                        <option apy="4.50" return="13.00" years="3">
+                          36 months
+                        </option>
+                        <option apy="5.00" return="20.00" years="4">
+                          48 months
+                        </option>
+                        <option apy="5.50" return="27.50" years="5" selected>
+                          60 months
+                        </option>
+                        <option apy="6.50" return="65.00" years="10">
+                          120 months
+                        </option>
+                        <option apy="7.00" return="87.50" years="15">
+                          180 months
+                        </option>
+                        <option apy="8.00" return="199.75" years="17.5">
+                          210 months
+                        </option>
+                        <option apy="9.00" return="180.00" years="20">
+                          240 months
+                        </option>
+                        <option apy="13.50" return="405.00" years="30">
+                          360 months
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="depositAmount"
+                        class="block text-base font-medium text-gray-500"
+                        >Initial Deposit</label
+                      >
+                      <div class="mt-3 relative rounded-md">
+                        <div
+                          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                        >
+                          <span
+                            class="text-gray-500 sm:text-base currencySymbol"
+                            >$</span
+                          >
+                        </div>
+                        <input
+                          id="depositAmount"
+                          class="block w-full pl-7 pr-12 text-gray-500 sm:text-base border-gray-300 focus:border-gray-300 focus:ring-0 rounded-md amount"
+                          placeholder="0.00"
+                          x-model="deposit"
+                          x-mask:dynamic="$money($input)"
+                          x-on:blur="depositAmountBlur()"
+                        />
+                        <div
+                          class="absolute inset-y-0 right-0 flex items-center"
+                        >
+                          <label for="selectedCurrency" class="sr-only"
+                            >Currency</label
+                          ><select
+                            id="selectedCurrency"
+                            class="h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-tiny rounded-md focus:ring-0 focus:border-0"
+                          >
+                            <option symbol="$">USD</option>
+                            <option symbol="£">GBP</option>
+                            <option symbol="€">EUR</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <a
+                        href="https://app.withspade.com/register"
+                        class="bg-loom hover:bg-loom-darker text-white w-full inline-flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-base font-medium"
+                        >Start Earning</a
+                      >
+                    </div>
+                    <div>
+                      <p class="text-base text-gray-500">
+                        This calculator is for informational purposes only.
+                        Calculated yields assume that principal and earnings
+                        remain in your Spade account with 5% price increase
+                        annually.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div id="calculator" style="overflow: hidden"></div>
+                </div>
+              </div>
+              <script>
+                function calculate(depositStr, numberOfYears, apy) {
+                  const deposit = parseFloat(depositStr);
+                  const returns = [];
+                  const currentYear = new Date().getFullYear();
+                  const years = [currentYear];
+                  for (let i = 1; i <= numberOfYears; i++) {
+                    years.push(currentYear + i);
+                  }
+                  years.forEach((year, i) => {
+                    let calc = (apy / 100) * i;
+                    let profit = calc * deposit;
+                    let returnAmt = parseFloat((deposit + profit).toFixed(2));
+                    returns.push(returnAmt);
+                  });
+
+                  Highcharts.chart("calculator", {
+                    chart: {
+                      type: "areaspline",
+                      backgroundColor: "#F2F3F4",
+                      height: "380px",
+                    },
+                    title: {
+                      text: " ",
+                    },
+                    xAxis: {
+                      allowDecimals: false,
+                      labels: {
+                        formatter: function () {
+                          return this.value; // clean, unformatted number for year
+                        },
+                      },
+                      categories: years,
+                    },
+                    yAxis: {
+                      title: {
+                        text: " ",
+                      },
+                      labels: {},
+                      visible: false,
+                    },
+                    plotOptions: {
+                      series: {
+                        marker: {
+                          enabled: false,
+                        },
+                      },
+                      area: {
+                        pointStart: 1940,
+                      },
+                    },
+                    legend: { enabled: false },
+                    series: [
+                      {
+                        name: " ",
+                        data: returns,
+                      },
+                    ],
+                    credits: { enabled: false },
+                  });
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
