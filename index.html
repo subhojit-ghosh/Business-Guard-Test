@@ -2324,7 +2324,7 @@
                 },
 
                 depositAmountBlur(){
-                  calculate(parseFloat(this.deposit.replace(/,/g, '')), this.years, this.apy);
+                  calculate(this.deposit, this.years, this.apy);
                 },
               }"
               x-init="calculate($data.deposit, $data.years, $data.apy)"
@@ -2442,7 +2442,10 @@
               </div>
               <script>
                 function calculate(depositStr, numberOfYears, apy) {
-                  const deposit = parseFloat(depositStr);
+                  let deposit = depositStr;
+                  if (typeof deposit == "string") {
+                    deposit = parseFloat(deposit.replace(/,/g, ""));
+                  }
                   const returns = [];
                   const currentYear = new Date().getFullYear();
                   const years = [currentYear];
