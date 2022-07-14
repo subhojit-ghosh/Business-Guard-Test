@@ -2332,23 +2332,8 @@
             </p>
             <div
               class="relative mx-auto text-left mt-6"
-              x-data="{
-                deposit: 1000, 
-                years: 5, 
-                apy: 5.50,
-                
-                termChange(event){
-                  const optionEl = event.target.options[event.target.selectedIndex];
-                  this.apy = parseFloat(optionEl.getAttribute('apy'));
-                  this.years = parseFloat(optionEl.getAttribute('years'));
-                  calculate(this.deposit, this.years, this.apy);
-                },
-
-                depositAmountBlur(){
-                  calculate(this.deposit, this.years, this.apy);
-                },
-              }"
-              x-init="calculate($data.deposit, $data.years, $data.apy)"
+              x-data="canculateReturnsSection"
+              x-init="calculate()"
             >
               <div class="grid gap-6 md:grid-cols-2">
                 <div>
@@ -2457,76 +2442,124 @@
                     </div>
                   </div>
                 </div>
-                <div>
-                  <div id="calculator" style="overflow: hidden"></div>
+                <div class="relative">
+                  <div id="calculator" class="bg-white overflow-hidden"></div>
+                  <div class="absolute left-0 top-0 w-1/2 bg-transparent">
+                    <div class="flex flex-col gap-2">
+                      <p>In <span x-text="periodText"></span> you will have:</p>
+                      <p
+                        class="text-h3 font-bold"
+                        x-text="formattedAmounttext"
+                      ></p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <script>
-                function calculate(depositStr, numberOfYears, apy) {
-                  let deposit = depositStr;
-                  if (typeof deposit == "string") {
-                    deposit = parseFloat(deposit.replace(/,/g, ""));
-                  }
-                  const returns = [];
-                  const currentYear = new Date().getFullYear();
-                  const years = [currentYear];
-                  for (let i = 1; i <= numberOfYears; i++) {
-                    years.push(currentYear + i);
-                  }
-                  years.forEach((year, i) => {
-                    let calc = (apy / 100) * i;
-                    let profit = calc * deposit;
-                    let returnAmt = parseFloat((deposit + profit).toFixed(2));
-                    returns.push(returnAmt);
-                  });
+            </div>
+            <script>
+              document.addEventListener("alpine:init", () => {
+                Alpine.data("canculateReturnsSection", () => ({
+                  deposit: 1000,
+                  years: 5,
+                  apy: 5.5,
+                  periodText: "",
+                  amountText: "",
 
-                  Highcharts.chart("calculator", {
-                    chart: {
-                      type: "areaspline",
-                      backgroundColor: "#F2F3F4",
-                      height: "380px",
-                    },
-                    title: {
-                      text: " ",
-                    },
-                    xAxis: {
-                      allowDecimals: false,
-                      labels: {
-                        formatter: function () {
-                          return this.value; // clean, unformatted number for year
-                        },
+                  get formattedAmounttext() {
+                    return new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(this.amountText);
+                  },
+
+                  termChange(event) {
+                    const optionEl =
+                      event.target.options[event.target.selectedIndex];
+                    this.apy = parseFloat(optionEl.getAttribute("apy"));
+                    this.years = parseFloat(optionEl.getAttribute("years"));
+                    this.calculate(this.deposit, this.years, this.apy);
+                  },
+                  depositAmountBlur() {
+                    this.calculate(this.deposit, this.years, this.apy);
+                  },
+                  calculate() {
+                    let deposit = this.deposit;
+                    if (typeof deposit == "string") {
+                      deposit = parseFloat(deposit.replace(/,/g, ""));
+                    }
+                    const returns = [];
+                    const currentYear = new Date().getFullYear();
+                    const years = [currentYear];
+                    for (let i = 1; i <= this.years; i++) {
+                      years.push(currentYear + i);
+                    }
+                    years.forEach((year, i) => {
+                      let calc = (this.apy / 100) * i;
+                      let profit = calc * deposit;
+                      let returnAmt = parseFloat((deposit + profit).toFixed(2));
+                      returns.push(returnAmt);
+                    });
+
+                    this.periodText = this.years * 12 + " months";
+                    this.amountText = returns[returns.length - 1];
+
+                    Highcharts.chart("calculator", {
+                      chart: {
+                        type: "areaspline",
+                        backgroundColor: "#FFFFFF",
+                        height: "380px",
                       },
-                      categories: years,
-                    },
-                    yAxis: {
                       title: {
                         text: " ",
                       },
-                      labels: {},
-                      visible: false,
-                    },
-                    plotOptions: {
-                      series: {
-                        marker: {
-                          enabled: false,
+                      xAxis: {
+                        allowDecimals: false,
+                        labels: {
+                          formatter: function () {
+                            return this.value; // clean, unformatted number for year
+                          },
+                        },
+                        categories: years,
+                      },
+                      yAxis: {
+                        title: {
+                          text: " ",
+                        },
+                        labels: {},
+                        visible: false,
+                      },
+                      plotOptions: {
+                        series: {
+                          marker: {
+                            enabled: false,
+                          },
+                          point: {
+                            events: {
+                              mouseOver: (e) => {
+                                const diff = e.target.category - currentYear;
+                                this.periodText = diff * 12 + " months";
+                                this.amountText = e.target.y;
+                              },
+                            },
+                          },
+                        },
+                        area: {
+                          pointStart: 1940,
                         },
                       },
-                      area: {
-                        pointStart: 1940,
-                      },
-                    },
-                    legend: { enabled: false },
-                    series: [
-                      {
-                        name: " ",
-                        data: returns,
-                      },
-                    ],
-                    credits: { enabled: false },
-                  });
-                }
-              </script>
-            </div>
+                      legend: { enabled: false },
+                      series: [
+                        {
+                          name: " ",
+                          data: returns,
+                        },
+                      ],
+                      credits: { enabled: false },
+                    });
+                  },
+                }));
+              });
+            </script>
           </div>
         </div>
       </div>
