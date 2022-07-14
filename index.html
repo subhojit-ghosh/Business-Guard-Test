@@ -1001,6 +1001,13 @@
                 </div>
               </div>
             </template>
+            <template x-if="countries.length == 0">
+              <p
+                class="text-gray-700 block px-4 py-2 text-sm rounded-md mx-2 my-2 px-2 py-2"
+              >
+                No records found
+              </p>
+            </template>
           </div>
         </div>
       </div>
