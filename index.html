@@ -891,7 +891,18 @@
     <div class="container my-28">
       <div
         class="relative left-28 inline-block text-left"
-        x-data="{open: false, countries: window.countries }"
+        x-data="{
+          open: false, 
+          allCountries: window.countries,
+          search: '',
+
+          get countries() {
+            if(!this.search.trim()){
+              return this.allCountries;
+            }
+            return this.allCountries.filter(v => v.name.toLowerCase().search(this.search.toLowerCase()) > -1);
+          }
+        }"
         @click.outside="open = false"
       >
         <div>
@@ -945,6 +956,7 @@
               class="py-4 text-sm text-white rounded-lg pl-5 focus:outline-none focus:bg-white focus:text-gray-400 w-full"
               placeholder="Country you are sending from"
               autocomplete="off"
+              x-model="search"
             />
             <span
               class="absolute inset-y-0 right-3 flex items-center pl-2 text-gray-900"
@@ -2302,7 +2314,9 @@
       <div class="relative py-8 lg:py-12 overflow-hidden">
         <div class="bg-white rounded-lg">
           <div class="mx-auto text-center p-8 lg:p-16">
-            <h1 class="text-4xl font-extrabold text-black">
+            <h1
+              class="text-4xl font-extrabold text-black pt-[1.15rem] pb-[1.1rem]"
+            >
               Calculate your <span class="text-loom">saving</span> yield
             </h1>
             <p class="mt-1 text-lg text-gray-500">
