@@ -1605,7 +1605,7 @@
     </div>
     <!-- full width section end -->
 
-    <div class="flex my-28 mx-28">
+    <div class="my-28 mx-28 pt-10">
       <div
         x-data="{
           amount: '100.00',
@@ -1629,8 +1629,53 @@
           x-on:blur="onAmountBlur()"
           x-mask:dynamic="$money($input)"
           placeholder="0.00"
+          class="px-4 py-2 rounded-lg"
         />
         <p>I have sent <span x-ref="amountDisplay"></span> to the bank</p>
+      </div>
+    </div>
+
+    <div class="my-28 mx-28 pt-10" id="currency-min-max">
+      <p class="font-bold text-2xl mb-10">Currency Min Max</p>
+      <div
+        x-data="{
+          amount: '100.00',
+          error: null,
+
+          onAmountBlur() {
+            const min = 10;
+            const max = 1000;
+            this.error = null;
+
+            if (!this.amount || this.amount < 0) {
+              this.amount = (0).toFixedNoRounding(2);
+            }
+
+            this.amount = parseFloat(this.amount.replace(/,/g, ''));
+
+            if (this.amount < min) {
+              this.error = 'Minimum amount is ' + min;
+              this.amount = min;
+            }
+            if (this.amount > max) {
+              this.error = 'Maximum amount is ' + max;
+              this.amount = max;
+            }
+
+            this.amount = parseFloat(this.amount).toFixedNoRounding(2);
+          }
+        }"
+      >
+        <input
+          x-model="amount"
+          x-on:blur="onAmountBlur()"
+          x-mask:dynamic="$money($input)"
+          placeholder="0.00"
+          class="block px-4 py-2 rounded-lg"
+        />
+        <template x-if="error">
+          <p class="text-red-400" x-text="error"></p>
+        </template>
       </div>
     </div>
 
