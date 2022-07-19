@@ -2861,5 +2861,65 @@
         </div>
       </div>
     </div>
+
+    <div class="my-28 mx-28 pt-10" id="send-to-bank-account">
+      <p class="font-bold text-2xl mb-10">Send to bank account</p>
+      <div
+        x-data="{
+          step1: true,
+          step2: false,
+          amount: '0.00',
+
+          get fee(){
+            const amount = parseFloat(this.amount.replace(/,/g, ''));
+            let value = (0.75/100)*amount;
+            if(!value){
+              value = 0;
+            }
+            return value.toFixed(2);
+          },
+
+          submit() {
+            const amount = parseFloat(this.amount.replace(/,/g, ''));
+            alert('Amount is '+ amount);
+          }
+        }"
+      >
+        <div x-show="step1">
+          <p>Recipient receives exactly</p>
+          <input
+            x-model="amount"
+            x-mask:dynamic="$money($input)"
+            placeholder="0.00"
+            class="block px-4 py-2 rounded-lg"
+          />
+          <p class="my-5">Fee: <span x-text="fee"></span></p>
+          <p class="my-5">Total: <span x-text="amount"></span></p>
+          <button
+            class="py-3 p-5 bg-blue-700 text-white rounded-lg"
+            @click="step1 = false;step2 = true"
+          >
+            Continue
+          </button>
+        </div>
+        <div x-show="step2">
+          <p class="my-5">
+            Amount typed on previous step <strong x-text="amount"></strong>
+          </p>
+          <button
+            class="py-3 p-5 bg-blue-700 text-white rounded-lg"
+            @click="submit()"
+          >
+            Submit
+          </button>
+          <button
+            class="mt-3 py-3 p-5 bg-red-700 text-white rounded-lg"
+            @click="step2 = false;step1 = true"
+          >
+            Back
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
