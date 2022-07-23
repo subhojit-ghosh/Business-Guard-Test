@@ -2362,7 +2362,7 @@
       </div>
     </div>
     <!-- send payment to bank popup end -->
-    <div class="my-28">
+    <div class="my-28" id="calculate">
       <div class="relative py-8 lg:py-12 overflow-hidden">
         <div class="bg-white rounded-lg">
           <div class="mx-auto text-center p-8 lg:p-16">
@@ -2393,7 +2393,7 @@
                         class="mt-3 py-2.5 bg-gray-50 text-gray-500 border border-gray-300 focus:border-gray-300 focus:ring-0 text-base rounded-md block w-full"
                         @change="termChange($event)"
                       >
-                        <option apy="2.50" return="1.25" years="0.5">
+                        <option apy="2.50" return="1.25" years="0.6">
                           6 months
                         </option>
                         <option apy="3.00" return="3.00" years="1">
@@ -2533,75 +2533,169 @@
                       deposit = parseFloat(deposit.replace(/,/g, ""));
                     }
                     const returns = [];
-                    const currentYear = new Date().getFullYear();
-                    const years = [currentYear];
-                    for (let i = 1; i <= this.years; i++) {
-                      years.push(currentYear + i);
-                    }
-                    years.forEach((year, i) => {
-                      let calc = (this.apy / 100) * i;
-                      let profit = calc * deposit;
-                      let returnAmt = parseFloat((deposit + profit).toFixed(2));
-                      returns.push(returnAmt);
-                    });
+                    if (this.years >= 1) {
+                      const currentYear = new Date().getFullYear();
+                      const years = [currentYear];
+                      for (let i = 1; i <= this.years; i++) {
+                        years.push(currentYear + i);
+                      }
+                      years.forEach((year, i) => {
+                        let calc = (this.apy / 100) * i;
+                        let profit = calc * deposit;
+                        let returnAmt = parseFloat(
+                          (deposit + profit).toFixed(2)
+                        );
+                        returns.push(returnAmt);
+                      });
 
-                    this.periodText = this.years * 12 + " months";
-                    this.amountText = returns[returns.length - 1];
-
-                    Highcharts.chart("calculator", {
-                      chart: {
-                        type: "areaspline",
-                        backgroundColor: "#FFFFFF",
-                        height: "380px",
-                      },
-                      title: {
-                        text: " ",
-                      },
-                      xAxis: {
-                        allowDecimals: false,
-                        labels: {
-                          formatter: function () {
-                            return this.value; // clean, unformatted number for year
-                          },
+                      this.periodText = this.years * 12 + " months";
+                      this.amountText = returns[returns.length - 1];
+                      Highcharts.chart("calculator", {
+                        chart: {
+                          type: "areaspline",
+                          backgroundColor: "#FFFFFF",
+                          height: "380px",
                         },
-                        categories: years,
-                      },
-                      yAxis: {
                         title: {
                           text: " ",
                         },
-                        labels: {},
-                        visible: false,
-                      },
-                      plotOptions: {
-                        series: {
-                          marker: {
-                            enabled: false,
+                        xAxis: {
+                          allowDecimals: false,
+                          labels: {
+                            formatter: function () {
+                              return this.value; // clean, unformatted number for year
+                            },
                           },
-                          point: {
-                            events: {
-                              mouseOver: (e) => {
-                                const diff = e.target.category - currentYear;
-                                this.periodText = diff * 12 + " months";
-                                this.amountText = e.target.y;
+                          categories: years,
+                        },
+                        yAxis: {
+                          title: {
+                            text: " ",
+                          },
+                          labels: {},
+                          visible: false,
+                        },
+                        plotOptions: {
+                          series: {
+                            marker: {
+                              enabled: false,
+                            },
+                            point: {
+                              events: {
+                                mouseOver: (e) => {
+                                  const diff = e.target.category - currentYear;
+                                  this.periodText = diff * 12 + " months";
+                                  this.amountText = e.target.y;
+                                },
                               },
                             },
                           },
+                          area: {
+                            pointStart: 1940,
+                          },
                         },
-                        area: {
-                          pointStart: 1940,
+                        tooltip: { enabled: false },
+                        legend: { enabled: false },
+                        series: [
+                          {
+                            name: " ",
+                            data: returns,
+                          },
+                        ],
+                        credits: { enabled: false },
+                      });
+                    } else {
+                      const monthNames = [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "June",
+                        "July",
+                        "Aug",
+                        "Sept",
+                        "Oct",
+                        "Nov",
+                        "Dec",
+                      ];
+                      const currentMonth = new Date().getMonth();
+                      const months = [];
+                      for (
+                        let i = currentMonth;
+                        i <= this.years * 10 + currentMonth;
+                        i++
+                      ) {
+                        if (i < 12) {
+                          months.push(monthNames[i]);
+                        } else {
+                          months.push(monthNames[i - 12]);
+                        }
+                      }
+                      months.forEach((month, i) => {
+                        let calc = (this.apy / 100) * (i / 10);
+                        let profit = calc * deposit;
+                        let returnAmt = parseFloat(
+                          (deposit + profit).toFixed(2)
+                        );
+                        returns.push(Math.round(returnAmt));
+                      });
+                      this.periodText = this.years * 10 + " months";
+                      this.amountText = returns[returns.length - 1];
+                      Highcharts.chart("calculator", {
+                        chart: {
+                          type: "areaspline",
+                          backgroundColor: "#FFFFFF",
+                          height: "380px",
                         },
-                      },
-                      tooltip: { enabled: false },
-                      legend: { enabled: false },
-                      series: [
-                        {
-                          name: " ",
-                          data: returns,
+                        title: {
+                          text: " ",
                         },
-                      ],
-                      credits: { enabled: false },
-                    });
+                        xAxis: {
+                          allowDecimals: false,
+                          labels: {
+                            formatter: function () {
+                              return this.value; // clean, unformatted number for year
+                            },
+                          },
+                          categories: months,
+                        },
+                        yAxis: {
+                          title: {
+                            text: " ",
+                          },
+                          labels: {},
+                          visible: false,
+                        },
+                        plotOptions: {
+                          series: {
+                            marker: {
+                              enabled: false,
+                            },
+                            point: {
+                              events: {
+                                mouseOver: (e) => {
+                                  this.periodText = e.target.index + " months";
+                                  this.amountText = e.target.y;
+                                },
+                              },
+                            },
+                          },
+                          area: {
+                            pointStart: 1940,
+                          },
+                        },
+                        tooltip: { enabled: false },
+                        legend: { enabled: false },
+                        series: [
+                          {
+                            name: " ",
+                            data: returns,
+                          },
+                        ],
+                        credits: { enabled: false },
+                      });
+                    }
                   },
                 }));
               });
