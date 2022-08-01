@@ -3192,5 +3192,28 @@
         });
       </script>
     </div>
+
+    <div class="my-28 mx-28 pt-10" id="currency-input-filter">
+      <p>Currency input allow numbers only</p>
+      <div
+        x-data="{
+          amount: '0.00',
+          onlyNumeric(event){
+            const regex = /[0-9]|\./;
+            const key = String.fromCharCode(event.keyCode || event.which);
+            if(!regex.test(key) ) {
+              event.preventDefault();
+            }
+          }
+        }"
+      >
+        <input
+          x-model="amount"
+          x-mask:dynamic="$money($input)"
+          @keypress="onlyNumeric($event)"
+          class="px-4 py-2 rounded-lg"
+        />
+      </div>
+    </div>
   </body>
 </html>
