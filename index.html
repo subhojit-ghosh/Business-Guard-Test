@@ -3253,5 +3253,56 @@
         </div>
       </div>
     </div>
+
+    <div
+      class="my-28 mb-[300px] pt-10 max-w-4xl mx-auto"
+      id="mailing-list"
+      x-data="{
+      cards: [
+        {id: 1, title: 'Newsletter', text: 'Last message sent an hour ago', count: '621 users'},
+        {id: 2, title: 'Existing Customers', text: 'Last message sent 2 weeks ago', count: '1200 users'},
+        {id: 3, title: 'Trial Users', text: 'Last message sent 4 days ago', count: '2740 users'}
+      ],
+      selected: 1,
+      saySelected(){
+        alert(this.cards.find(v => v.id == this.selected).title);
+      }
+    }"
+    >
+      <div class="grid grid-cols-3 gap-6">
+        <template x-for="card of cards">
+          <div
+            class="bg-white p-4 rounded-xl border border-2 border-gray-200 cursor-pointer relative"
+            :class="`${selected == card.id ? 'border-violet-500' : ''}`"
+            @click="selected = card.id"
+          >
+            <p class="font-semibold text-md mb-1" x-text="card.title"></p>
+            <p class="text-sm text-gray-500 mb-5" x-text="card.text"></p>
+            <p class="text-sm font-semibold" x-text="card.count"></p>
+            <template x-if="selected == card.id">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-violet-500 absolute top-3 right-3"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </template>
+          </div>
+        </template>
+      </div>
+      <button
+        class="select-none transition-all bg-blue-500 text-white font-semibold border-transparent hover:bg-blue-600 leading-4 py-4 px-6 h-12 md:h-[50px] rounded-lg md:text-btn18 mt-10 hidden lg:block mx-auto"
+        type="button"
+        @click="saySelected()"
+      >
+        Save
+      </button>
+    </div>
   </body>
 </html>
