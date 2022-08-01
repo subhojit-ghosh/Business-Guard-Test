@@ -3215,5 +3215,43 @@
         />
       </div>
     </div>
+    <div class="my-28 mx-28 pt-10" id="phone-number-input">
+      <div
+        class="sm:col-span-3"
+        x-data="{
+        countries: [
+          {name: 'GB', placeholder: '+1 (555) 987-6543'},
+          {name: 'IN', placeholder: '+91 98463 64736'}
+        ],
+        selectedCountry: 'GB',
+        get inputPlaceholder(){
+          return this.countries.find((v) => v.name == this.selectedCountry).placeholder
+        }
+      }"
+      >
+        <label for="phone" class="block text-sm font-medium text-blue-gray-900"
+          >Phone Number</label
+        >
+        <div class="mt-2 relative rounded-md shadow-sm w-72">
+          <div class="absolute inset-y-0 left-0 flex items-center">
+            <select
+              id="phoneCountry"
+              class="h-full py-0 pl-3 pr-1 border-transparent focus:border-transparent focus:ring-0 bg-transparent text-blue-gray-900 sm:text-sm rounded-md"
+              x-model="selectedCountry"
+            >
+              <template x-for="country of countries">
+                <option :value="country.name" x-text="country.name"></option>
+              </template>
+            </select>
+          </div>
+          <input
+            type="text"
+            id="phone-number"
+            class="block w-full py-2.5 pl-16 sm:text-sm border-gray-300 focus:border-gray-300 focus:ring-0 rounded-md"
+            :placeholder="inputPlaceholder"
+          />
+        </div>
+      </div>
+    </div>
   </body>
 </html>
