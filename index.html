@@ -40,8 +40,26 @@
         return b > 0 ? a + "0".repeat(b) : a;
       };
     </script>
+
+    
   </head>
   <body style="background-color: #f2f3f4">
+
+    <!-- preloader start -->
+
+    <div class="bg-[#1E429F] w-[100vw] h-[100vh] z-[9999] fixed flex justify-center items-center" id="preloader">
+      <img src="https://withspade.com/assets/images/logo.svg" class="w-52 animate-bounce" />
+    </div>
+
+    <script>
+      window.addEventListener("load", function(){
+        document.getElementById('preloader').style.display = 'none';
+      });
+    </script>
+
+    <!-- preloader end -->
+
+
     <!-- header -->
     <div class="relative" style="background-color: #f2f3f4">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
