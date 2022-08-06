@@ -53,7 +53,9 @@
 
     <script>
       window.addEventListener("load", function(){
-        document.getElementById('preloader').style.display = 'none';
+        setTimeout(() => {
+          document.getElementById('preloader').style.display = 'none';
+        }, 1000);
       });
     </script>
 
