@@ -3239,13 +3239,26 @@
       <div
         class="sm:col-span-3"
         x-data="{
-        countries: [
-          {name: 'GB', placeholder: '+1 (555) 987-6543'},
-          {name: 'IN', placeholder: '+91 98463 64736'}
+        allCountries: [
+          {name: 'GB', placeholder: '+1 (555) 987-6543', prefix: '+1'},
+          {name: 'IN', placeholder: '+91 98463 64736', prefix: '+91'}
         ],
+        open: false,
         selectedCountry: 'GB',
+        search: '',
         get inputPlaceholder(){
-          return this.countries.find((v) => v.name == this.selectedCountry).placeholder
+          return this.allCountries.find((v) => v.name == this.selectedCountry).placeholder
+        },
+        select(item){
+          this.open = false;
+          this.selectedCountry = item.name;
+          this.search = '';
+        },
+        get countries() {
+          if(!this.search.trim()){
+            return this.allCountries;
+          }
+          return this.allCountries.filter(v => v.prefix.toLowerCase().search(this.search.toLowerCase()) > -1);
         }
       }"
       >
@@ -3254,20 +3267,93 @@
         >
         <div class="mt-2 relative rounded-md shadow-sm w-72">
           <div class="absolute inset-y-0 left-0 flex items-center">
-            <select
-              id="phoneCountry"
-              class="h-full py-0 pl-3 pr-1 border-transparent focus:border-transparent focus:ring-0 bg-transparent text-blue-gray-900 sm:text-sm rounded-md"
-              x-model="selectedCountry"
+            <button
+            type="button"
+            class="inline-flex w-full justify-between rounded-xl px-4 py-4 text-md text-gray-600"
+            @click="open = true"
+          >
+            <span x-text="selectedCountry"></span>
+            <svg
+              class="-mr-1 ml-2 h-5 w-5 relative top-[2px]"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
             >
-              <template x-for="country of countries">
-                <option :value="country.name" x-text="country.name"></option>
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+          </div>
+          <div
+            class="origin-top-right absolute top-10 mt-2 w-34 rounded-lg shadow-xl bg-white ring-1 ring-gray-600 ring-opacity-5 focus:outline-none z-20"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="menu-button"
+            tabindex="-1"
+            x-show="open"
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 translate-y-1"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 translate-y-1"
+          >
+            <div class="relative">
+              <input
+                type="text"
+                class="py-4 text-sm text-white rounded-lg pl-5 focus:outline-none focus:bg-white text-gray-800 w-full"
+                placeholder="Search"
+                autocomplete="off"
+                x-model="search"
+              />
+              <span
+                class="absolute inset-y-0 right-3 flex items-center pl-2 text-gray-900"
+              >
+                <button
+                  type="button"
+                  class="p-1 focus:outline-none focus:shadow-outline"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="color: gray"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </button>
+              </span>
+            </div>
+            <hr />
+            <div class="py-1 max-h-80 overflow-y-scroll" role="none">
+              <template x-for="item in countries">
+                <div
+                  class="text-gray-700 block px-4 py-2 text-sm cursor-pointer rounded-md mx-2 my-2 px-2 py-2 hover:bg-gray-100"
+                  @click="select(item)"
+                >
+                  <div class="flex w-full">
+                    <p x-text="item.prefix"></p>
+                  </div>
+                </div>
               </template>
-            </select>
+            </div>
           </div>
           <input
             type="text"
             id="phone-number"
-            class="block w-full py-2.5 pl-16 sm:text-sm border-gray-300 focus:border-gray-300 focus:ring-0 rounded-md"
+            class="block w-full py-2.5 pl-[80px] sm:text-sm border-gray-300 focus:border-gray-300 focus:ring-0 rounded-md"
             :placeholder="inputPlaceholder"
           />
         </div>
