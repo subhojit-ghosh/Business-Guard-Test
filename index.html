@@ -3240,18 +3240,18 @@
         class="sm:col-span-3"
         x-data="{
         allCountries: [
-          {name: 'GB', placeholder: '+1 (555) 987-6543', prefix: '+1'},
-          {name: 'IN', placeholder: '+91 98463 64736', prefix: '+91'}
+          {placeholder: '+1 (555) 987-6543', prefix: '+1'},
+          {placeholder: '+91 98463 64736', prefix: '+91'}
         ],
         open: false,
-        selectedCountry: 'GB',
+        selectedCountry: '+1',
         search: '',
         get inputPlaceholder(){
-          return this.allCountries.find((v) => v.name == this.selectedCountry).placeholder
+          return this.allCountries.find((v) => v.prefix == this.selectedCountry).placeholder
         },
         select(item){
           this.open = false;
-          this.selectedCountry = item.name;
+          this.selectedCountry = item.prefix;
           this.search = '';
         },
         get countries() {
