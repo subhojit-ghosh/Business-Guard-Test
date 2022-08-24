@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Scroll</title>
+    <!-- Alpine Plugins -->
+    <script
+      defer
+      src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- Alpine Core -->
+    <script defer src="//unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="//cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div x-data="infiniteScroll">
+      <template x-for="(item, index) of list">
+        <div class="p-10 border">
+          <span x-text="index+1"></span>
+          <strong x-text="item.name" class="ml-4"></strong>
+        </div>
+      </template>
+      <template x-if="loading">
+        <div>Loading...</div>
+      </template>
+      <template x-if="!loading">
+        <div x-intersect="loadNext"></div>
+      </template>
+    </div>
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.data("infiniteScroll", () => ({
+          page: 1,
+          totalPages: null,
+          list: [],
+          loading: true,
+
+          init() {
+            fetch("https://api.instantwebtools.net/v1/passenger?page=1&size=10")
+              .then((res) => res.json())
+              .then((res) => {
+                this.totalPages = res.totalPages;
+                this.list = res.data;
+                this.loading = false;
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          },
+
+          loadNext() {
+            if (this.page < this.totalPages) {
+              this.loading = true;
+              this.page = this.page + 1;
+              fetch(
+                `https://api.instantwebtools.net/v1/passenger?page=${this.page}&size=10`
+              )
+                .then((res) => res.json())
+                .then((res) => {
+                  this.list = [...this.list, ...res.data];
+                  this.loading = false;
+                })
+                .catch(() => {
+                  this.loading = false;
+                });
+            }
+          },
+        }));
+      });
+    </script>
+  </body>
+</html>
