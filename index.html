@@ -3519,5 +3519,78 @@
       </div>
       
     </div>
+
+    <div class="my-28 mb-[300px] p-10 bg-[#F3F4F6]" id="table-with-checkbox" x-data="{
+      items: [{
+        id:1, 
+        name: 'Lindsay Walton',
+        title: 'Front-end Developer',
+        email: 'lindsay.walton@example.com',
+        role: 'Member'
+      },{
+        id:2, 
+        name: 'Lindsay Walton',
+        title: 'Front-end Developer',
+        email: 'lindsay.walton@example.com',
+        role: 'Member'
+      },{
+        id:3, 
+        name: 'Lindsay Walton',
+        title: 'Front-end Developer',
+        email: 'lindsay.walton@example.com',
+        role: 'Member'
+      },{
+        id:4, 
+        name: 'Lindsay Walton',
+        title: 'Front-end Developer',
+        email: 'lindsay.walton@example.com',
+        role: 'Member'
+      }],
+      selected: [],
+      selectAll: false,
+      toggleSelectAll(){
+        if(this.selectAll){
+          this.selected = this.items.map(v => v.id);
+        } else {
+          this.selected = [];
+        }
+      },
+      checkSelectAll(){
+        if(this.selected.length == this.items.length){
+          this.selectAll = true;
+        } else {
+          this.selectAll = false;
+        }
+      }
+    }">
+      <table class="w-full text-left overflow-hidden rounded-lg">
+        <thead class="bg-[#F9FAFB] border">
+          <tr class="text-sm">
+            <th class="p-4 text-center">
+              <input class="h-4 w-4 border border-gray-200 rounded-sm bg-white transition duration-200 mt-1 mr-2 cursor-pointer" type="checkbox" @change="toggleSelectAll" :checked="selectAll" x-model="selectAll" />
+            </th>
+            <th class="p-4">Name</th>
+            <th class="p-4">Title</th>
+            <th class="p-4">Email</th>
+            <th class="p-4">Role</th>
+            <th class="p-4"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <template x-for="item in items">
+            <tr class="bg-white border text-sm">
+              <th class="p-4 font-medium text-center">
+                <input class="h-4 w-4 border border-gray-200 rounded-sm bg-white transition duration-200 mt-1 mr-2 cursor-pointer" type="checkbox" x-model="selected" :value="item.id" @change="checkSelectAll" />
+              </th>
+              <th class="p-4 font-medium" x-text="item.name">Lindsay Walton</th>
+              <th class="p-4 font-medium text-gray-500" x-text="item.title"></th>
+              <th class="p-4 font-medium text-gray-500" x-text="item.email">lindsay.walton@example.com</th>
+              <th class="p-4 font-medium text-gray-500" x-text="item.role">Member</th>
+              <th class="p-4 font-medium"><a href="" class="text-blue-600">Edit</a></th>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
